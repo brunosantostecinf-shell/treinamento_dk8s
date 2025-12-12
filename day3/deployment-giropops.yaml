@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    day: "3"
+    app: nginx-deployment-giropops
+  name: nginx-deployment-giropops
+  namespace: giropops
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx-deployment-giropops
+  strategy: {}
+  template:
+     metadata:
+       labels:
+         app: nginx-deployment-giropops
+     spec:
+       containers:
+       - image: nginx:1.16.0
+         name: nginx
+         resources:
+           limits:
+             cpu: 0.7
+             memory: 256Mi
+           requests:
+             cpu: 0.2
+             memory: 64Mi
+

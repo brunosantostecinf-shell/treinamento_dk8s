@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-faminto
+  namespace: treinamento-ch2
+spec:
+  containers:
+  - name: stress
+    image: polinux/stress
+    # Tenta alocar 250MB de RAM
+    command: ["stress"]
+    args: ["--vm", "1", "--vm-bytes", "250M", "--vm-hang", "1"]
+    resources:
+      requests:
+        memory: "100Mi"
+      limits:
+        # Limite de 200MB é menor que os 250MB que ele tenta alocar -> OOMKilled
+        memory: "200Mi"
+

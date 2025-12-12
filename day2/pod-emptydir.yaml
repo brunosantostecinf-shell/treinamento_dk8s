@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: girus
+    day: "2"
+    service: emptydir
+  name: webserver
+spec:
+  containers:
+  - image: nginx
+    name: webserver
+    volumeMounts:
+    - mountPath: /giropops
+      name: primeiro-emptydir
+    resources:
+      limits:
+        cpu: "1.5"
+        memory: "128Mi"
+      requests:
+        cpu: "0.3"
+        memory: "64Mi"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+  - name: primeiro-emptydir
+    emptyDir:
+      sizeLimit: 256Mi
+status: {}

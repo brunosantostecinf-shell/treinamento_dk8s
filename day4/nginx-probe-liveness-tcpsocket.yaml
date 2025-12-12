@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-deployment-probe-liveness-tcpsocket
+  name: nginx-deployment-probe-liveness-tcpsocket
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-deployment-probe-liveness-tcpsocket
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment-probe-liveness-tcpsocket
+    spec:
+      containers:
+      - image: nginx:1.19.1
+        name: nginx
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 256Mi
+          requests:
+            cpu: 0.25
+            memory: 128Mi
+        livenessProbe:
+          tcpSocket:
+            port: 81
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+          
