@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    storage: lento
+  name: meu-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: giropops
+  hostPath:
+    path: /mnt/data
+
+#spec.capacity.storage: Aqui estamos definindo a capacidade do nosso PV, no caso 1 Gigabyte de armazenamento.
+#spec.accessModes: Aqui estamos definindo os modos de acesso ao PV, no caso o modo ReadWriteOnce, que significa que o PV pode ser montado como leitura e escrita por um único nó. Aqui nós temos mais alguns modos de acesso:
+#ReadOnlyMany: O PV pode ser montado como somente leitura por vários nós.
+#ReadWriteMany: O PV pode ser montado como leitura e escrita por vários nós.
+#spec.persistentVolumeReclaimPolicy: Aqui estamos definindo a política de reivindicação do PV, no caso a política Retain, que significa que o PV não será excluído quando o PVC for excluído. Aqui nós temos mais algumas políticas:
+#Recycle: O PV será excluído quando o PVC for excluído, mas antes disso ele será limpo, ou seja, todos os dados serão apagados.
+#Delete: O PV será excluído quando o PVC for excluído.
+#Outra seção importante é a seção hostPath, que é onde definimos o tipo de armazenamento que vamos utilizar, no caso um hostPath. Vou detalhar abaixo os tipos de armazenamento que podemos utilizar:
+#
+#hostPath: É uma maneira simples de usar um diretório do nó do cluster como armazenamento. É útil principalmente para testes e desenvolvimento, pois não é apropriado para ambientes de produção, já que os dados armazenados só estão disponíveis no nó específico. Ele é ideal em cenários de testes com somente um node.
+#nfs: É um sistema de arquivos de rede que permite compartilhar arquivos entre várias máquinas na rede. É uma opção comum para armazenamento compartilhado em um cluster Kubernetes.
+#iscsi: É um protocolo que permite a conexão de dispositivos de armazenamento de blocos, como SAN (Storage Area Network), por meio de redes IP.
+#csi: Que significa Container Storage Interface, é um recurso que permite a integração de soluções de armazenamento de terceiros com o Kubernetes. O CSI permite que os provedores de armazenamento implementem seus próprios plugins de armazenamento e os integrem ao Kubernetes. É graças ao CSI que podemos utilizar soluções de armazenamento de terceiros, como o AWS EBS, Google Cloud Persistent Disk e Azure Disk Storage.
+#cephfs: É um sistema de arquivos distribuído e escalável que permite criar volumes de armazenamento compartilhado em vários nós do cluster.
+#local: É um tipo de armazenamento que permite a criação de volumes locais, onde você pode especificar o caminho do diretório onde os dados serão armazenados. É útil principalmente para testes e desenvolvimento, já que não é apropriado para ambientes de produção, já que os dados armazenados só estão disponíveis no node específico. A diferença entre o hostPath e o local é que o local é um recurso nativo do Kubernetes, enquanto o hostPath é um recurso do Kubernetes que utiliza o recurso nativo do Docker e não é recomendado quando estamos com mais de um node no cluster.
+#fc: É um protocolo que permite a conexão de dispositivos de armazenamento de blocos utilizando redes de fibra óptica. É uma opção comum para armazenamento compartilhado em um cluster Kubernetes.

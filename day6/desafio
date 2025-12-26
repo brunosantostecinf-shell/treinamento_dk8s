@@ -1,0 +1,4 @@
+A sua lição de casa
+A sua lição de casa é criar um deployment do Nginx, que possua um volume montado no /usr/share/nginx/html. Fique a vontade em utilizar diferentes tipos de provisionadores e/ou diferentes tipos de PV. Deixe a sua imaginação te guiar e aproveite para estudar as diferentes aplicabilidades. :)
+
+ 

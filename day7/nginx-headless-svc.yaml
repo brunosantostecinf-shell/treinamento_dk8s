@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    name: http
+  clusterIP: None
+
+#curl -L nginx-0.nginx.giropops.svc.cluster.local - nginx-0.<service-name>.<namespace>.svc.cluster.local
+
+#root@nginx-2:/# curl -L nginx-0.nginx.giropops.svc.cluster.local
+#STRIGUS GIRUS - Giropops-0
+#root@nginx-2:/# curl -L nginx-1.nginx.giropops.svc.cluster.local
+#STRIGUS GIRUS - Giropops-1
+#root@nginx-2:/# curl -L nginx-2.nginx.giropops.svc.cluster.local
+#STRIGUS GIRUS - Giropops-2
+#kubectl get statefulsets.apps -o yaml

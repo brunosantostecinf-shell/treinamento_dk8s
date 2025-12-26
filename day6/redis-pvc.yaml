@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis
+  name: redis-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - image: redis
+        name: redis-deployment
+        ports:
+          - containerPort: 6379
+        volumeMounts:
+          - name: redis-data
+            mountPath: /data
+        resources:
+           limits:
+             cpu: 0.7
+             memory: 256Mi
+           requests:
+             cpu: 0.2
+             memory: 64Mi
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: meu-pvc
