@@ -107,5 +107,3 @@ k8s-02   Ready    <none>   59m   v1.26.3   172.31.59.34   <none>        Ubuntu 2
 Estou utilizando o parâmetro -o wide para que o comando retorne mais detalhes sobre o node, como o IP externo e o IP interno.
 
 E claro, você ainda pode utilizar o comando kubectl describe node para visualizar mais detalhes dos demais nodes, como fizemos para o node k8s-01.
-
-
