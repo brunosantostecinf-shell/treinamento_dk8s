@@ -1,0 +1,60 @@
+[root@devops-host02 CURSO_DK8S]# kubectl expose deployment nginx -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-12-29T11:07:04Z"
+  labels:
+    app: nginx
+  name: nginx
+  namespace: giropops
+  resourceVersion: "26261422"
+  uid: 96740f7e-70cd-43b0-ae1f-243a63f029e6
+spec:
+  clusterIP: 10.96.114.107
+  clusterIPs:
+  - 10.96.114.107
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
+[root@devops-host02 CURSO_DK8S]# kubectl create service clusterip --tcp=8080:80 nginx -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-12-29T11:13:23Z"
+  labels:
+    app: nginx
+  name: nginx
+  namespace: giropops
+  resourceVersion: "26262240"
+  uid: 8cb38838-d6ab-459a-8b2a-372d7f2a1509
+spec:
+  clusterIP: 10.96.119.229
+  clusterIPs:
+  - 10.96.119.229
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: 8080-80
+    port: 8080
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

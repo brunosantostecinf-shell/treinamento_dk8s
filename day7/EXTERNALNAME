@@ -1,0 +1,8 @@
+kubectl create service externalname meu-service --external-name meu-db.giropops.com.br
+apiVersion: v1
+kind: Service
+metadata:
+  name: meu-service
+spec:
+  type: ExternalName
+  externalName: meu-db.giropops.com.br

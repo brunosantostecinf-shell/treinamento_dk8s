@@ -1,0 +1,32 @@
+[root@devops-host02 CURSO_DK8S]# kubectl expose deployment nginx --type LoadBalancer -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-12-29T11:09:21Z"
+  labels:
+    app: nginx
+  name: nginx
+  namespace: giropops
+  resourceVersion: "26261731"
+  uid: 5a38c4c6-c621-40d4-9559-f19a2c2f9ac3
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.96.190.169
+  clusterIPs:
+  - 10.96.190.169
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30281
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}

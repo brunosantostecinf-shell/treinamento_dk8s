@@ -1,0 +1,51 @@
+[root@devops-host02 CURSO_DK8S]# kubectl expose deployment nginx --type NodePort -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-12-29T11:05:21Z"
+  labels:
+    app: nginx
+  name: nginx
+  namespace: giropops
+  resourceVersion: "26261188"
+  uid: 30a55c0b-a7e0-4e78-bd97-47c77b963844
+spec:
+  clusterIP: 10.96.240.76
+  clusterIPs:
+  - 10.96.240.76
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30322
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
+
+[root@devops-host02 CURSO_DK8S]# kubectl create service nodeport --tcp=8080:80 nginx --dry-run=client -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx
+  name: nginx
+spec:
+  ports:
+  - name: 8080-80
+    port: 8080
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: NodePort
+status:
+  loadBalancer: {}

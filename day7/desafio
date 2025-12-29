@@ -1,0 +1,8 @@
+A sua lição de casa
+Quero que você crie e gerencie um StatefulSet em seu próprio ambiente Kubernetes. Comece criando um StatefulSet simples com um par de Pods e depois tente escalá-lo para mais Pods. Experimente também apagar um Pod e veja como o Kubernetes lida com isso.
+
+Em seguida, brinque com os Services. Exponha seu StatefulSet através de um Service do tipo ClusterIP e depois tente mudar para um NodePort ou LoadBalancer. Teste a conectividade para garantir que tudo está funcionando corretamente.
+
+E por último, mas não menos importante, crie um Service do tipo ExternalName e aponte-o para um serviço externo de sua escolha. Verifique se o serviço externo está acessível de dentro de seus Pods.
+
+Lembre-se, a prática leva à perfeição, então não pule essa lição de casa! ;) E quando tiver dúvidas ou enfrentar problemas, não hesite em procurar ajuda. Estamos todos aqui para aprender juntos!
