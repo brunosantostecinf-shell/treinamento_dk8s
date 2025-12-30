@@ -1,4 +1,4 @@
-# 🚀 Descomplicando K8S – Linux Tips
+# 🚀 Descomplicando K8S LinuxTips
 
 Bem-vindo(a) ao repositório do treinamento **Descomplicando K8S – Linux Tips**!  
 
