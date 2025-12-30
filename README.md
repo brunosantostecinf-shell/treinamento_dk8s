@@ -76,4 +76,49 @@ CURSO_DK8S/
 >
 > **Conhecimento compartilhado é conhecimento multiplicado.**
 
+---
+
+## 🔥 Manifesto Código, Vida e Legado
+
+> **A vida, às vezes, quebra o build.**  
+> E muda completamente o nosso deploy do dia.
+
+---
+
+> **Nosso projeto mais importante**  
+> A vida é o nosso repositório principal.  
+> Todo dia fazemos um commit novo.
+
+---
+
+> **Legado não é um monolito.**  
+> São pequenos atos.
+
+---
+
+> **O que realmente fica**
+>
+> - Pessoas que você ajudou  
+> - Pessoas que você inspirou  
+> - Momentos em que você apoiou alguém  
+> - A forma como você tratou os outros
+
+---
+
+> **O tempo é finito.**  
+> Mais escasso que CPU, memória ou budget.
+
+---
+
+> **Cada linha conta.**  
+> Toda linha é um tijolo do seu legado.  
+> Escreva com intenção.  
+> Escreva com empatia.
+
+---
+
+> **O seu código é o que você faz.**  
+> **Seu legado é o porquê você faz.**
+
+---
 
