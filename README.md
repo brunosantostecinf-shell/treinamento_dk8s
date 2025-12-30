@@ -39,7 +39,7 @@ CURSO_DK8S/
 ├── day12/
 └── primeira-live-case-pratico/
 
----
+```
 
 ## 🔥 Manifesto — Para quem chegar aqui no futuro
 
@@ -57,19 +57,17 @@ CURSO_DK8S/
 > Se algo quebrar, **reconstrua**.  
 > Se surgir dúvida, **investigue**.
 >
-> 🚀 **Conhecimento não se consome — se constrói.**  
+> 🚀 **Conhecimento não se consome se constrói.**  
 > E quem constrói, transforma.
 >
 > **Siga em frente. O cluster é seu.**
-
----
 
 ## 🐧☸️ Manifesto de Gratidão
 
 > **Nada disso seria possível sem quem escolhe compartilhar conhecimento.**
 >
 > Nosso reconhecimento e agradecimento ao **Jefferson Fernando**, da **Linux Tips**,  
-> por mostrar que Kubernetes pode — e deve — ser ensinado com clareza, prática e propósito.
+> por mostrar que Kubernetes pode e deve ser ensinado com clareza, prática e propósito.
 >
 > Ensinar não é simplificar demais.  
 > É **guiar com responsabilidade**, conectar conceitos à realidade e formar profissionais que sabem *por quê*, não apenas *como*.
@@ -78,5 +76,4 @@ CURSO_DK8S/
 >
 > **Conhecimento compartilhado é conhecimento multiplicado.**
 
----
 
