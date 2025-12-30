@@ -41,7 +41,7 @@ CURSO_DK8S/
 
 ```
 
-## 🔥 Manifesto — Para quem chegar aqui no futuro
+## 🔥 Manifesto Para quem chegar aqui no futuro
 
 > **Kubernetes não é um destino.  
 > É um processo.**
