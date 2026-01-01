@@ -1,0 +1,26 @@
+apiVersion: v1
+metadata:
+  name: nginx-config
+  #immutable: true # torna o ConfigMap imutável
+data:
+  nginx.conf: |-
+    http {
+        server {
+            listen 80;
+            listen 443 ssl;
+            ssl_certificate: /etc/nginx/tls/certificado.crt;
+            ssl_certificate_key /etc/nginx/tls/chave-privada.key;
+
+            location / {
+              return 200 'Olá Terraqueos e Terraterrestres!\n';
+              add_header Content-Type text/plain;
+            }
+        }
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2026-01-01T16:47:52Z"
+  name: nginx-config
+  namespace: giropops
+  resourceVersion: "26840885"
+  uid: dfce1123-2b14-4e5b-835e-e492d80b2482

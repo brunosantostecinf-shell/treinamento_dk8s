@@ -1,0 +1,25 @@
+root@devops-host02 CURSO_DK8S]# echo -n "giropops" | base64
+Z2lyb3BvcHM=
+[root@devops-host02 CURSO_DK8S]# echo -n "nuderval" | base64
+bnVkZXJ2YWw=
+
+kubectl create secret generic giropops-test --from-literal=username=Z2lyb3BvcHM= --from-literal=password=bnVkZXJ2YWw=
+
+[root@devops-host02 CURSO_DK8S]# kubectl get secrets
+NAME            TYPE     DATA   AGE
+giropops-test   Opaque   2      8s
+[root@devops-host02 CURSO_DK8S]# 
+[root@devops-host02 CURSO_DK8S]# kubectl describe secret giropops-test 
+Name:         giropops-test
+Namespace:    giropops
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+password:  12 bytes
+username:  12 bytes
+
+kubectl create secret generic giropops-secret --from-literal=username=Z2lyb3BvcHM= --from-li'teral=password=bnVkZXJ2YWw=

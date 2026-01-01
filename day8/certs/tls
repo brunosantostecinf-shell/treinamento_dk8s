@@ -1,0 +1,8 @@
+#Criar certificado autoassinado pelo OPENSSL
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout chave-privada.key -out certificado.crt
+
+#Criar certificado secret TLS 
+kubectl create secret tls meu-servico-web-tls-secret --cert=day8/certs/certificado.crt --key=day8/certs/chave-privada.key 
+
+#Listar secret yaml
+kubectl get secret -o yaml

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: meu-pod
+spec:
+  containers:
+  - name: meu-container
+    image: minha-imagem-privada
+  imagePullSecrets: # campo que define o Secret que armazena as credenciais do Docker Hub
+  - name: docker-hub-secret # nome do Secret
