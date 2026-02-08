@@ -1,11 +1,16 @@
 
-Desativando o uso do swap no sistema
+### Desativando o uso do swap no sistema
+
 Primeiro, vamos desativar a utilização de swap no sistema. Isso é necessário porque o Kubernetes não trabalha bem com swap ativado:
 
+```bash
 sudo swapoff -a
-Carregando os módulos do kernel
+```
+### Carregando os módulos do kernel
+
 Agora, vamos carregar os módulos do kernel necessários para o funcionamento do Kubernetes:
 
+```bash
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 overlay
 br_netfilter
@@ -13,9 +18,13 @@ EOF
 
 sudo modprobe overlay
 sudo modprobe br_netfilter
-Configurando parâmetros do sistema
+```
+
+### Configurando parâmetros do sistema
+
 Em seguida, vamos configurar alguns parâmetros do sistema. Isso garantirá que nosso cluster funcione corretamente:
 
+```
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -23,9 +32,12 @@ net.ipv4.ip_forward                 = 1
 EOF
 
 sudo sysctl --system
-Instalando os pacotes do Kubernetes
+```
+
+### Instalando os pacotes do Kubernetes
 Hora de instalar os pacotes do Kubernetes! Coisa linda de ai meu Deus! Aqui vamos nós:
 
+```bash
 sudo apt-get update && sudo apt-get install -y apt-transport-https curl
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -36,3 +48,4 @@ sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 
 sudo apt-mark hold kubelet kubeadm kubectl
+```

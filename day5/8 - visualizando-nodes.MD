@@ -1,8 +1,10 @@
 Visualizando detalhes dos nodes
+
 Agora que já temos o nosso clustes com 03 nodes, nós podemos visualizar os detalhes de cada um deles, e assim entender cada detalhe.
 
 Para ver a descrição do node, basta executar o comando abaixo:
 
+```
 kubectl describe node k8s-01
  
 
@@ -90,19 +92,20 @@ Events:
   Normal   NodeAllocatableEnforced  56m   kubelet          Updated Node Allocatable limit across pods
   Normal   RegisteredNode           56m   node-controller  Node k8s-01 event: Registered Node k8s-01 in Controller
   Normal   NodeReady                52m   kubelet          Node k8s-01 status is now: NodeReady
- 
+```
 
 Na saída do comando acima é possível ver detalhes como o nome do node, o IP interno, o hostname, a capacidade de CPU, memória, armazenamento, pods, etc. Também é possível ver os pods que estão rodando no node, os recursos alocados e os eventos que ocorreram no node.
 
 Caso você queira visualizar detalhes dos outros dois nodes, basta utilizar o comando abaixo:
 
+```
 kubectl get nodes k8s-02 -o wide
 kubectl get nodes k8s-03 -o wide
  
 
 NAME     STATUS   ROLES    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION    CONTAINER-RUNTIME
 k8s-02   Ready    <none>   59m   v1.26.3   172.31.59.34   <none>        Ubuntu 22.04.2 LTS   5.15.0-1031-aws   containerd://1.6.20
- 
+``` 
 
 Estou utilizando o parâmetro -o wide para que o comando retorne mais detalhes sobre o node, como o IP externo e o IP interno.
 

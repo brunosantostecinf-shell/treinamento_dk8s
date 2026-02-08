@@ -1,0 +1,1 @@
+![alt text](infografico_linuxtips.png)

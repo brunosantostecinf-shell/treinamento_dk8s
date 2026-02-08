@@ -1,9 +1,16 @@
 Girus Lab - Case-01
+
 Copie e cole o conteúdo abaixo em um arquivo, por exemplo, case-01.yaml.
+
 Depois é só importar lá no Girus com:
-# girus create lab -f case-01.yaml
+
+```
+girus create lab -f case-01.yaml
+```
 
 Depois é só acessar o Girus e procurar pelo lab Caso 1: O Deploy de Sexta-Feira e praticar!
+
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -402,3 +409,4 @@ data:
           - command: "kubectl get deployment meu-servico -n producao -o jsonpath='{.spec.template.spec.containers[0].livenessProbe.httpGet.path}' 2>/dev/null"
             expectedOutput: "/"
             errorMessage: "A livenessProbe não está configurada corretamente no Deployment final."
+```

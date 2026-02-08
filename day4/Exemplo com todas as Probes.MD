@@ -1,7 +1,8 @@
-Exemplo com todas as probes
+## Exemplo com todas as probes
 
 Vamos para o nosso exemplo final de hoje, vamos utilizar todas as probes que vimos até aqui, e vamos criar um arquivo chamado nginx-todas-probes.yaml:
 
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -57,24 +58,28 @@ spec:
           timeoutSeconds: 5 # O tempo que iremos esperar para considerar que a probe falhou
           successThreshold: 1 # O número de vezes que a probe precisa passar para considerar que o container está pronto
           failureThreshold: 3 # O número de vezes que a probe precisa falhar para considerar que o container não está pronto
- 
+``` 
 
 Pronto, estamos utilizando as três probes, vamos aplicar:
 
+```
 kubectl apply -f nginx-todas-probes.yaml
+``` 
 
-E vamos ver se os nossos Pods estão saudáveis:
+E vamos ver se os nossos Pods estão saudáveis: 
 
 Vamos ver na saída do describe pods se as nossa probes estão por lá.
 
+```
 ...
     Liveness:     exec [curl -f http://localhost:80/] delay=10s timeout=5s period=10s #success=1 #failure=3
     Readiness:    http-get http://:80/ delay=10s timeout=5s period=10s #success=1 #failure=3
     Startup:      tcp-socket :80 delay=10s timeout=5s period=10s #success=1 #failure=3
- 
+``` 
 
 Todas lá! Maravilha!
 
 Agora podemos dizer que já sabemos como cuidar bem dos nossos Pods e deixá-los sempre saudáveis e no controle.
 
 Não esqueça de acessar a documentação oficial do Kubernetes para saber mais sobre as probes, e claro, se tiver alguma dúvida, não deixe de perguntar.
+
