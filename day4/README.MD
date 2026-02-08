@@ -1,6 +1,6 @@
 Day4 - Descomplicando ReplicaSets, DaemonSets e as Probes do Kubernetes
 
-[O que iremos ver hoje?](<O que iremos ver hoje?.MD>)
+[O que iremos ver hoje?](<O que iremos ver hoje.MD>)
 
 [Deployment eo ReplicaSet](<Deployment e o ReplicaSet.MD>)
 
