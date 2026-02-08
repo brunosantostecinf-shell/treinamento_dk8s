@@ -1,1 +1,0 @@
-Day10 - Descomplicando Ingress com TLS, Labels, Annotations e o Cert-manager

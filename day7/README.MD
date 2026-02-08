@@ -1,1 +1,0 @@
-Day7 - Descomplicando os Statefulsets e os Services no Kubernetes
