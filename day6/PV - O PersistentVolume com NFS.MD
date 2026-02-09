@@ -1,48 +1,50 @@
 Primeira coisa que vamos fazer é criar o diretório que será compartilhado entre os nodes do cluster. Lembrando que para esse exemplo, estou utilizando uma máquina Linux para criar o compartilhamento NFS, mas você pode utilizar qualquer outro sistema operacional, desde que ele tenha suporte ao NFS.
 
+```
 mkdir /mnt/nfs
- 
+``` 
 
 Precisamos instalar os pacotes nfs-kernel-server e nfs-common para que o servidor NFS e o cliente NFS sejam instalados.
 
+```
 sudo apt-get install nfs-kernel-server nfs-common
- 
+``` 
 
 Vamos editar o arquivo /etc/exports, que é o arquivo de configuração do NFS, e adicionar o diretório que será compartilhado entre os nodes do cluster.
 
+```
 sudo vi /etc/exports
  
-
 /mnt/nfs *(rw,sync,no_root_squash,no_subtree_check)
- 
+``` 
 
 Onde:
 
 /mnt/nfs: é o diretório que você deseja compartilhar.
 
-*: permite que qualquer host acesse o diretório compartilhado. Para maior segurança, você pode substituir * por um intervalo de IPs ou por IPs específicos dos clientes que terão acesso ao diretório compartilhado. Por exemplo, 192.168.1.0/24 permitiria que todos os hosts na sub-rede 192.168.1.0/24 acessassem o diretório compartilhado.
+- *: permite que qualquer host acesse o diretório compartilhado. Para maior segurança, você pode substituir * por um intervalo de IPs ou por IPs específicos dos clientes que terão acesso ao diretório compartilhado. Por exemplo, 192.168.1.0/24 permitiria que todos os hosts na sub-rede 192.168.1.0/24 acessassem o diretório compartilhado.
 
-rw: concede permissões de leitura e gravação aos clientes.
+- rw: concede permissões de leitura e gravação aos clientes.
 
-sync: garante que as solicitações de gravação sejam confirmadas somente quando as alterações tiverem sido realmente gravadas no disco.
+- sync: garante que as solicitações de gravação sejam confirmadas somente quando as alterações tiverem sido realmente gravadas no disco.
 
-no_root_squash: permite que o usuário root em um cliente NFS acesse os arquivos como root. Caso contrário, o acesso seria limitado a um usuário não privilegiado.
+- no_root_squash: permite que o usuário root em um cliente NFS acesse os arquivos como root. Caso contrário, o acesso seria limitado a um usuário não privilegiado.
 
-no_subtree_check: desativa a verificação de subárvore, o que pode melhorar a confiabilidade em alguns casos. A verificação de subárvore normalmente verifica se um arquivo faz parte do diretório exportado.
+- no_subtree_check: desativa a verificação de subárvore, o que pode melhorar a confiabilidade em alguns casos. A verificação de subárvore normalmente verifica se um arquivo faz parte do diretório exportado.
 
 Agora vamos falar para o NFS que o diretório /mnt/nfs está disponível para ser compartilhado.
 
+```
 sudo exportfs -arv
- 
+``` 
 
 Maravilha! Vamos agora verificar se o NFS está funcionando corretamente.
-
+```
 showmount -e
- 
 
 Export list for localhost:
 /mnt/nfs *
- 
+``` 
 
 Já era! O nosso NFS está funcionando corretamente. \o/
 
@@ -50,6 +52,7 @@ Agora que já temos o nosso NFS funcionando, vamos criar o nosso StorageClass pa
 
 Para esse exemplo, vamos criar um arquivo chamado storageclass-nfs.yaml e adicionar o seguinte conteúdo.
 
+```yaml
 apiVersion: storage.k8s.io/v1 # Versão da API do Kubernetes
 kind: StorageClass # Tipo de objeto que estamos criando, no caso um StorageClass
 metadata: # Informações sobre o objeto
@@ -59,7 +62,7 @@ reclaimPolicy: Retain # Política de reivindicação do PV, ou seja, o PV não s
 volumeBindingMode: WaitForFirstConsumer
 parameters: # Parâmetros que serão utilizados pelo provisionador
   archiveOnDelete: "false" # Parâmetro que indica se os dados do PV devem ser arquivados quando o PV for excluído
- 
+``` 
 
 O Kubernetes não possui um provisionador nfs nativo, então não é possível fazer com que o provisionador kubernetes.io/no-provisioner crie um PV utilizando um servidor NFS automaticamente, para que isso seja possível, precisamos utilizar um provisionador nfs externo, mas isso não é o foco nesse momento, então vamos criar o nosso PV manualmente, afinal de contas, já estamos experts em PVs, certo?
 
@@ -67,6 +70,7 @@ Bora lá!
 
 Então já podemos criar o PV e associa-lo ao Storage Class, e para isso vamos criar um novo arquivo chamado pv-nfs.yaml e adicionar o seguinte conteúdo.
 
+```yaml
 apiVersion: v1 # Versão da API do Kubernetes
 kind: PersistentVolume # Tipo de objeto que estamos criando, no caso um PersistentVolume
 metadata: # Informações sobre o objeto
@@ -83,14 +87,14 @@ spec: # Especificações do nosso PV
     server: IP_DO_SERVIDOR_NFS # Endereço do servidor NFS
     path: "/mnt/nfs" # Compartilhamento do servidor NFS
   storageClassName: nfs # Nome da classe de armazenamento que será utilizada
- 
+``` 
 
 Agora vamos criar o nosso PV.
 
-kubectl apply -f pv-nfs.yaml
- 
+```
+kubectl apply -f pv-nfs.yaml 
 
 persistentvolume/meu-pv created
- 
+``` 
 
 Tudo certo com o nosso PV, agora eu acho que já podemos passar para o próximo tópico, que é o PVC.
