@@ -16,42 +16,5 @@ spec:
         spec:
           containers:
           - name: "*"
-            apiVersion: kyverno.io/v1
-kind: ClusterPolicy
-metadata:
-  name: ensure-images-from-trusted-repo
-spec:
-  validationFailureAction: enforce
-  rules:
-  - name: trusted-repo-check
-    match:
-      resources:
-        kinds:
-        - Pod
-    validate:
-      message: "Only images from trusted repositories are allowed"
-      pattern:
-        spec:
-          containers:
-          - name: "*"
-            image: "trustedrepo.com/*"
-            apiVersion: kyverno.io/v1
-kind: ClusterPolicy
-metadata:
-  name: ensure-images-from-trusted-repo
-spec:
-  validationFailureAction: enforce
-  rules:
-  - name: trusted-repo-check
-    match:
-      resources:
-        kinds:
-        - Pod
-    validate:
-      message: "Only images from trusted repositories are allowed"
-      pattern:
-        spec:
-          containers:
-          - name: "*"
             image: "trustedrepo.com/*"
 #            image: "cgr.dev/chainguard/*"
