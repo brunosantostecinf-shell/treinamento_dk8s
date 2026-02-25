@@ -16,5 +16,5 @@ spec:
         spec:
           containers:
           - name: "*"
-            image: "trustedrepo.com/*"
+            image: "trustedrepo.com/*" #"!*:latest"
 #            image: "cgr.dev/chainguard/*"
