@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: primeira-netpol          # Nome da policy
+  namespace: giropops            # Namespace onde a policy será aplicada
+
+spec:
+  podSelector:
+    matchLabels:
+      app: redis                 # Esta policy afeta somente Pods com label app=redis
+
+  ingress:                       # Regras de entrada para os Pods selecionados
+  - from:
+    - podSelector: {}            # Permite tráfego vindo de qualquer Pod
+                                 # do MESMO namespace (giropops)
+
+                                 # Como não há namespaceSelector, a regra
+                                 # não inclui Pods de outros namespaces
+
+                                 # Como não há ipBlock, a regra também não
+                                 # libera acesso por IP externo
+
+                                 # Como não há "ports", todas as portas ficam
+                                 # liberadas, desde que a origem seja permitida

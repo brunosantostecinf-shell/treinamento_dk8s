@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: segunda-netpol                 # Nome da NetworkPolicy
+  namespace: giropops                  # Namespace onde a policy será aplicada
+
+spec:
+
+  podSelector: {}                      # Seleciona TODOS os Pods do namespace giropops
+                                       # Ou seja, essa policy afeta qualquer Pod dentro desse namespace
+
+  policyTypes:
+  - Ingress                            # Esta policy controla apenas tráfego de ENTRADA (Ingress)
+                                       # Não há controle de saída (Egress)
+
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: giropops
+                                       # Permite tráfego de entrada somente de Pods que estejam
+                                       # em namespaces que possuam esta label
+
+                                       # A label "kubernetes.io/metadata.name" normalmente
+                                       # corresponde ao nome do namespace
+
+                                       # Portanto, na prática, esta regra permite tráfego
+                                       # apenas de Pods que estejam no namespace "giropops"
+
+                                       # Isso significa:
+                                       # - Pods dentro do namespace giropops podem se comunicar entre si
+                                       # - Pods de outros namespaces NÃO podem acessar Pods do namespace giropops
+
+                                       # Como não foi especificado "ports",
+                                       # todas as portas dos Pods ficam liberadas
+                                       # para as origens permitidas acima

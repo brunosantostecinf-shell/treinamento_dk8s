@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: allow-app-to-redis              # Nome da NetworkPolicy
+  namespace: giropops                   # Namespace onde a policy será aplicada
+
+spec:
+
+  podSelector:
+    matchLabels: {}                     # Seleciona TODOS os Pods do namespace giropops
+                                        # Ou seja, qualquer Pod desse namespace será afetado
+                                        # por esta regra de saída (egress)
+
+  policyTypes:
+  - Egress                              # Esta policy controla apenas tráfego de SAÍDA
+                                        # Não existem regras de Ingress aqui
+
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: giropops
+                                        # Permite tráfego de saída apenas para Pods
+                                        # que estejam no namespace giropops
+
+      podSelector:
+        matchLabels:
+          app: redis                    # Dentro do namespace giropops, permite comunicação
+                                        # apenas com Pods que possuam a label app=redis
+                                        # Ou seja, os Pods que executam o serviço Redis
+
+    ports:
+    - protocol: TCP
+      port: 6379                        # Permite apenas conexões TCP na porta 6379
+                                        # que é a porta padrão utilizada pelo Redis
+
+                                        # Na prática esta policy permite que qualquer
+                                        # aplicação no namespace giropops consiga
+                                        # se conectar ao Redis interno do namespace.
+
+                                        # Exemplos de comportamento desta policy:
+
+                                        # ✔ Pods do namespace giropops → podem conectar
+                                        #    ao Redis na porta 6379
+
+                                        # ❌ Conexões para Redis em outras portas → bloqueadas
+
+                                        # ❌ Conexões para outros Pods do namespace
+                                        #    que não tenham label app=redis → bloqueadas
+
+                                        # ❌ Conexões para Pods de outros namespaces → bloqueadas
+
+                                        # ❌ Conexões externas para internet ou outros serviços
+                                        #    não são permitidas por esta policy

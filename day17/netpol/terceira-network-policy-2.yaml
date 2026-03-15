@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: terceira-2-netpol                # Nome da NetworkPolicy
+  namespace: giropops                    # Namespace onde a policy será aplicada
+
+spec:
+
+  podSelector: {}                        # Seleciona TODOS os Pods do namespace giropops
+                                         # Ou seja, todos os Pods desse namespace passam
+                                         # a ser controlados por esta NetworkPolicy
+
+  policyTypes:
+  - Ingress                              # Esta policy controla apenas tráfego de ENTRADA
+                                         # Não existem regras de saída (Egress)
+
+  ingress:
+  - from:
+
+    - namespaceSelector:
+        matchExpressions:
+          - key: kubernetes.io/metadata.name
+            operator: In
+            values: ["ingress-nginx","giropops"]
+
+                                         # Permite tráfego de entrada apenas de Pods
+                                         # que estejam em namespaces cujo nome seja:
+                                         #
+                                         # - giropops
+                                         # - ingress-nginx
+                                         #
+                                         # Aqui foi usado "matchExpressions" com operador "In",
+                                         # que permite definir múltiplos valores para a mesma label.
+                                         #
+                                         # Isso é funcionalmente equivalente a criar duas regras
+                                         # separadas de namespaceSelector, mas deixa o YAML mais compacto.
+                                         #
+                                         # Na prática esta policy permite:
+                                         #
+                                         # ✔ Comunicação entre Pods dentro do namespace giropops
+                                         # ✔ Tráfego vindo do namespace ingress-nginx
+                                         #
+                                         # Exemplos comuns:
+                                         # - Ingress Controller (NGINX) acessando aplicações
+                                         # - Comunicação interna entre microserviços
+                                         #
+                                         # Qualquer Pod de outros namespaces será BLOQUEADO.
+
+                                         # Como não existe definição de "ports",
+                                         # todas as portas dos Pods ficam liberadas
+                                         # para as origens permitidas acima.

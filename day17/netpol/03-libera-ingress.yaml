@@ -1,0 +1,50 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: allow-ingress                 # Nome da NetworkPolicy
+  namespace: giropops                 # Namespace onde a policy será aplicada
+
+spec:
+
+  podSelector: {}                     # Seleciona TODOS os Pods do namespace giropops
+                                      # Ou seja, esta policy afeta todos os Pods desse namespace
+
+  policyTypes:
+  - Ingress                           # Esta policy controla apenas tráfego de ENTRADA
+                                      # Não existe regra de Egress, então saída dos Pods não é afetada
+
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: ingress-nginx
+                                      # Permite tráfego de entrada somente de Pods
+                                      # que estejam no namespace "ingress-nginx"
+
+                                      # Esse namespace normalmente contém o
+                                      # Ingress Controller (ex: NGINX Ingress Controller)
+
+                                      # Isso é necessário quando as aplicações são
+                                      # expostas externamente através de um Ingress,
+                                      # pois o controller é quem encaminha o tráfego
+                                      # para os Pods da aplicação
+
+    ports:
+    - protocol: TCP
+      port: 5000                      # Permite apenas conexões TCP na porta 5000
+                                      # para os Pods selecionados acima
+
+                                      # Isso significa que o Ingress Controller
+                                      # poderá acessar os Pods apenas nesta porta
+
+                                      # Exemplos de comportamento desta policy:
+
+                                      # ✔ Pods do namespace ingress-nginx → podem acessar porta 5000
+                                      # ❌ Pods de outros namespaces → bloqueados
+                                      # ❌ Comunicação interna entre Pods do namespace giropops → bloqueada
+                                      # ❌ Outras portas (ex: 80, 6379, 443) → bloqueadas
+
+                                      # Esta policy é muito comum para aplicações web
+                                      # expostas via Ingress que escutam em uma porta
+                                      # específica dentro do container.

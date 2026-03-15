@@ -1,0 +1,50 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: terceira-netpol                 # Nome da NetworkPolicy
+  namespace: giropops                   # Namespace onde a policy será aplicada
+
+spec:
+
+  podSelector: {}                       # Seleciona TODOS os Pods do namespace giropops
+                                        # Ou seja, qualquer Pod neste namespace será afetado por esta policy
+
+  policyTypes:
+  - Ingress                             # Esta policy controla apenas tráfego de ENTRADA
+                                        # Não existe regra de Egress, então saída dos Pods não é afetada
+
+  ingress:
+  - from:
+
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: giropops
+                                        # Permite tráfego de entrada vindo de Pods
+                                        # que estejam no namespace "giropops"
+                                        # Ou seja, comunicação interna entre Pods
+                                        # do próprio namespace continua permitida
+
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: ingress-nginx
+                                        # Permite tráfego de entrada vindo de Pods
+                                        # que estejam no namespace "ingress-nginx"
+                                        # Normalmente este namespace contém o controller
+                                        # de Ingress (ex: NGINX Ingress Controller)
+
+                                        # Isso é comum quando aplicações são expostas
+                                        # via Ingress e o tráfego chega através do
+                                        # controller rodando nesse namespace
+
+                                        # Portanto, esta policy permite acesso aos Pods
+                                        # do namespace giropops a partir de:
+                                        # 1) Pods do próprio namespace giropops
+                                        # 2) Pods do namespace ingress-nginx
+
+                                        # Como não foi definido "ports",
+                                        # todas as portas dos Pods ficam liberadas
+                                        # para essas origens permitidas
+
+                                        # Qualquer outro namespace NÃO poderá acessar
+                                        # Pods dentro do namespace giropops

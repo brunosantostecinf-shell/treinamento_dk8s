@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: ip-block                      # Nome da NetworkPolicy
+  namespace: giropops                 # Namespace onde a policy será aplicada
+
+spec:
+
+  podSelector: {}                     # Seleciona TODOS os Pods do namespace giropops
+                                      # Ou seja, todos os Pods deste namespace serão
+                                      # afetados por esta policy
+
+  policyTypes:
+  - Ingress                           # Esta policy controla apenas tráfego de ENTRADA
+                                      # Não há controle de saída (Egress)
+
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 172.18.0.0/16           # Permite tráfego vindo de qualquer IP dentro
+                                      # da rede 172.18.0.0 até 172.18.255.255
+
+        except:
+        - 172.18.0.111/32             # EXCEÇÃO: bloqueia especificamente o IP
+                                      # 172.18.0.111 mesmo estando dentro do CIDR permitido
+
+                                      # /32 significa exatamente um único endereço IP
+
+                                      # Na prática esta policy funciona assim:
+
+                                      # ✔ Permite tráfego vindo de qualquer IP da rede 172.18.0.0/16
+                                      # ❌ Bloqueia tráfego do IP específico 172.18.0.111
+                                      # ❌ Bloqueia tráfego vindo de qualquer IP fora da rede 172.18.0.0/16
+
+                                      # Como não foram especificadas "ports",
+                                      # todas as portas dos Pods ficam liberadas
+                                      # para os IPs permitidos acima
+
+                                      # Este tipo de policy é comum quando queremos
+                                      # permitir acesso apenas de uma rede corporativa,
+                                      # VPN ou rede de datacenter, bloqueando IPs específicos
+                                      # considerados inseguros.

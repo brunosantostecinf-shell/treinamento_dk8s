@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: allow-dns                    # Nome da NetworkPolicy
+  namespace: giropops                # Namespace onde a policy será aplicada
+
+spec:
+
+  podSelector:
+    matchLabels: {}                  # Seleciona TODOS os Pods do namespace giropops
+                                     # Ou seja, esta policy afeta qualquer Pod dentro desse namespace
+
+  policyTypes:
+  - Egress                           # Esta policy controla apenas tráfego de SAÍDA (Egress)
+                                     # Não existe regra de Ingress nesta policy
+
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+                                     # Permite tráfego de saída apenas para Pods
+                                     # que estejam no namespace kube-system
+
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns         # Dentro do namespace kube-system, seleciona apenas
+                                    # os Pods que possuem a label k8s-app=kube-dns
+                                    # Normalmente esses Pods são o CoreDNS / kube-dns
+                                    # responsáveis pela resolução de nomes no cluster
+
+    ports:
+    - protocol: UDP
+      port: 53                      # Permite apenas tráfego UDP na porta 53
+                                    # que é a porta padrão utilizada pelo DNS
+
+                                    # Na prática esta policy permite que os Pods
+                                    # do namespace giropops façam consultas DNS
+                                    # para o serviço de DNS interno do cluster.
+
+                                    # Exemplos de comportamento desta policy:
+
+                                    # ✔ Pods podem consultar DNS interno (CoreDNS)
+                                    # ✔ Resolução de nomes como:
+                                    #     redis.giropops.svc.cluster.local
+                                    #     kubernetes.default.svc.cluster.local
+                                    #
+                                    # ❌ Conexões para qualquer outro destino externo
+                                    #    não são permitidas por esta policy
+                                    #
+                                    # ❌ Comunicação com APIs externas ou bancos externos
+                                    #    não é liberada aqui
+                                    #
+                                    # Esta policy geralmente é usada junto com
+                                    # uma policy de "default deny egress",
+                                    # permitindo explicitamente apenas consultas DNS.

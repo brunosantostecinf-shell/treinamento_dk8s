@@ -1,0 +1,50 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: default-deny-all            # Nome da NetworkPolicy
+  namespace: giropops               # Namespace onde a policy será aplicada
+
+spec:
+
+  podSelector: {}                   # Seleciona TODOS os Pods do namespace giropops
+                                    # Ou seja, esta policy afeta todos os Pods
+                                    # existentes e futuros dentro desse namespace
+
+  policyTypes:
+  - Ingress                         # Define que o tráfego de ENTRADA será controlado
+  - Egress                          # Define que o tráfego de SAÍDA também será controlado
+
+                                    # Como não existem regras "ingress" nem "egress"
+                                    # declaradas abaixo, o comportamento padrão será
+                                    # NEGAR TODO O TRÁFEGO.
+
+                                    # Isso significa que:
+
+                                    # ❌ Nenhum Pod pode receber conexões (Ingress)
+                                    # ❌ Nenhum Pod pode iniciar conexões (Egress)
+
+                                    # Na prática esta policy cria um isolamento total
+                                    # do namespace giropops.
+
+                                    # Exemplos do que será bloqueado:
+                                    # - Comunicação entre Pods dentro do namespace
+                                    # - Acesso a serviços em outros namespaces
+                                    # - Acesso a DNS (kube-dns / CoreDNS)
+                                    # - Acesso a bancos externos
+                                    # - Chamadas para APIs externas
+                                    # - Tráfego vindo de Ingress Controllers
+
+                                    # Essa policy é normalmente usada como
+                                    # BASELINE DE SEGURANÇA (Zero Trust),
+                                    # onde tudo começa bloqueado e depois
+                                    # outras NetworkPolicies liberam apenas
+                                    # os acessos necessários.
+
+                                    # Exemplo de fluxo comum em ambientes seguros:
+                                    #
+                                    # 1) aplicar default-deny-all
+                                    # 2) liberar DNS
+                                    # 3) liberar comunicação entre microservices
+                                    # 4) liberar acesso ao Ingress Controller
+                                    # 5) liberar acesso a bancos ou APIs externas
