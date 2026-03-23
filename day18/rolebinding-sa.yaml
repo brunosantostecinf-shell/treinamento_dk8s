@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1  # API group/v1 para RBAC
+kind: RoleBinding  # Recurso RoleBinding para associar uma Role a um usuário ou grupo
+metadata:
+  name: rolebinding-sa  # Nome do RoleBinding
+  namespace: default  # Namespace onde o RoleBinding será aplicado
+subjects:
+- kind: ServiceAccount  # Tipo de sujeito: conta de serviço
+  name: pod-leitor  # Nome da conta de serviço que receberá as permissões
+  namespace: default  # Namespace onde a conta de serviço está localizada
+roleRef:
+  kind: Role  # Tipo de Role referenciada
+  name: sa-role  # Nome da Role que será associada à conta de serviço
+  apiGroup: rbac.authorization.k8s.io  # API group para RBAC

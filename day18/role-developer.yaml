@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1  # API group/v1 para RBAC
+kind: Role  # Recurso Role para definir permissões dentro de um namespace
+metadata:
+  name: developer  # Nome da Role
+  namespace: dev  # Namespace onde a Role será aplicada
+rules:
+- apiGroups: [""]  # API group "" para recursos core (pods, services, etc.)
+  resources: ["pods"]  # Recursos que a Role pode acessar 
+  verbs: ["get", "list", "create", "delete"]  # Permissões: ler pods

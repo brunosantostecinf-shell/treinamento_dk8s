@@ -1,0 +1,11 @@
+apiVersion: rbac.authorization.k8s.io/v1  # API group/v1 para RBAC
+kind: ClusterRoleBinding  # Recurso ClusterRoleBinding para associar uma ClusterRole a um usuário ou grupo
+metadata:
+  name: platform  # Nome do ClusterRoleBinding
+subjects:
+- kind: User  # Tipo de sujeito: usuário
+  name: platform  # Nome do usuário que receberá as permissões
+roleRef:
+  kind: ClusterRole  # Tipo de ClusterRole referenciada
+  name: platform  # Nome da ClusterRole que será associada ao usuário
+  apiGroup: rbac.authorization.k8s.io  # API group para RBAC

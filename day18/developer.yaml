@@ -1,0 +1,17 @@
+# CSR de usuário “developer” para o cluster Kubernetes
+#
+# 1) request: CSR em PEM codificado em base64 (gerado por openssl req -new ... | base64 | tr -d '\n')
+# 2) signerName: qual controller fará a assinatura quando o CSR for aprovado.
+# 3) expirationSeconds: duração do certificado emitido em segundos.
+# 4) usages: finalidades que o certificado deve suportar.
+
+apiVersion: certificates.k8s.io/v1  # API group/v1 para CSR
+kind: CertificateSigningRequest   # Recurso CSR do Kubernetes
+metadata:
+  name: developer   # Nome da solicitação de certificado
+spec:
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1dUQ0NBVUVDQVFBd0ZERVNNQkFHQTFVRUF3d0paR1YyWld4dmNHVnlNSUlCSWpBTkJna3Foa2lHOXcwQgpBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFuYVZUU05QUTlCR0VrWW5SQVA5SUxOSUMrd3B3NS94UUpQRFpOMitzClpIeEdTV3Mrem5LaHUvYkdxU3VqZWJSSmdFMVpEd2M3ck95Zk9wKy83RFQxY20wajN5OXFXTUFPSnNzTFh4VHQKMXd0WUdBWkdqdGF0Rk5GU3kxbWdEVlY5MHBFMEx3SWo3UzRVMGs1ejlkdTZrUnhqMVVsaUNNZWd1U0c2OGlpawp3YWtDY2RpUVZqdUd1V0JRN3BuQkxPL3loWUFlSWJnc3BWOHVIQnBIWENIWTBQSFRNbEEyYmJEVlpUWXB3dXIrCksrWlk3eHlOQXZlS2RJMjBoa1dVMHlxc242cVlNdlRCbTB2ajN6RUZ6MWJHTElGRi9YS1RvUlNYTmkyVlh4OTAKdkRubDNsNU1EdzBMUmVGTnAwRjdXd3g4ekNHdmZRQi9IMjdvdWk1OStzc01EUUlEQVFBQm9BQXdEUVlKS29aSQpodmNOQVFFTEJRQURnZ0VCQUNQdkFKcTl0U3VDSy9BQkcxdVJ5ZUNnUHVxbWdmZDM5NDMvakNndStmQXc5SnU1Cm1UUmlPMGZpeHlqV1RwTnJVWW90Z2hQcW5IUWsyYXRTd3ZHa09ZNzhnSEVCdEtHeVdzRERjemhXWFJuMndvWlgKczBaYWNYTGxSUWdZT1NjbnVwdXIxN01hamwxN25rVHFlMWlzQVJ3dmw3TFViTFArWmVBY1hsS2tvbVgwanlVYgpEbVdpc3N3MVlUSDMzZnd5NnIwZURQY3Ywblc5M1Zhd2dEMXo3ZVpyREJDN2lxaDliUmxoNTlOVVlWbkQ4QVdaCmFUT0UvVFliTE5VdTZZL3JKVVJzNkUrNUFNenpyS2pnakphbURFZXdFV2NZMEpmSFZoSWtpZHhiNlFHWDlkR08KUU9lQWVndmExK1JDeTQrVkZhSjRjSjUvR1RjVW5PM0VxYnNBOWRrPQotLS0tLUVORCBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0K  # CSR codificado em base64, gerado com openssl req + base64
+  signerName: kubernetes.io/kube-apiserver-client  # Signer para auth de cliente API Server
+  expirationSeconds: 31536000  # Validade do certificado: 365 dias
+  usages:
+  - client auth  # Uso do certificado: autenticação de cliente

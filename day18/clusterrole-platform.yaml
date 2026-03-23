@@ -1,0 +1,8 @@
+apiVersion: rbac.authorization.k8s.io/v1  # API group/v1 para RBAC
+kind: ClusterRole  # Recurso ClusterRole para definir permissões em todo o cluster
+metadata:
+  name: platform    # Nome da ClusterRole
+rules:
+- apiGroups: ["", "apps"]  # API group "" para recursos core (pods, services, etc.)
+  resources: ["pods", "deployments"]  # Recursos que a Role pode acessar  
+  verbs: ["list", "create", "get", "delete"]  # Permissões: ler pods e deployments, criar pods e deployments

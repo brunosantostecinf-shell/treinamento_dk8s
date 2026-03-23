@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: meu-pod-leitor
+  namespace: default
+spec:
+  serviceAccountName: pod-leitor  # Especifica a conta de serviço para o pod
+  containers:
+  - name: pod-leitor-teste
+    image: alpine:latest
+    command: ["sleep", "infinity"]  # Comando para manter o pod em execução
