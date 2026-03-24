@@ -40,6 +40,9 @@ CURSO_DK8S/
 ├── day13/
 ├── day14/
 ├── day15/
+├── day16/
+├── day17/
+├── day18/
 └── primeira-live-case-pratico/
 
 ```
