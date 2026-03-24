@@ -6,4 +6,5 @@ metadata:
 rules:
 - apiGroups: [""]  # API group "" para recursos core (pods, services, etc.)
   resources: ["pods"]  # Recursos que a Role pode acessar 
-  verbs: ["get", "list", "create", "delete"]  # Permissões: ler pods
+  #verbs: ["get", "list", "create"]  # Permissões: ler pods
+  verbs: ["get", "list", "create", "delete"]  # Permissões: ler e criar pods e deletar pods

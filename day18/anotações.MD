@@ -98,11 +98,6 @@
   - Um contexto define cluster + user + namespace para operações.
   - Comando seguinte opera com este contexto ativo.
 
-- `kubectl config set-credentials developer --client-certificate developer.crt`
-  - Adiciona credenciais chamadas `developer` ao kubeconfig.
-  - `--client-certificate developer.crt`: caminho do certificado client.
-  - Sem `--client-key`, a chave não é armazenada (usar próximo comando).
-
 - `kubectl config set-credentials developer --client-certificate developer.crt --client-key developer.key --embed-cert`
   - Adiciona credenciais `developer` com certificado e chave privada.
   - `--client-key developer.key`: caminho da chave privada.
@@ -165,3 +160,27 @@
   - Não exige `-n namespace` pois ClusterRoles são cluster-scoped.
   - Exemplo de saída: admin, edit, system:aggregate-to-admin, platform, etc.
 
+- `kubectl apply -f service-account.yaml`
+  - Cria ServiceAccount (`pod-leitor`) no namespace atual.
+- `kubectl get serviceaccounts`
+  - Lista serviceaccounts no namespace.
+- `kubectl describe serviceaccounts pod-leitor`
+  - Exibe detalhes da SA, incluindo Secrets vinculados.
+- `kubectl apply -f service-account-secret.yaml`
+  - Cria Secret tipo `kubernetes.io/service-account-token` para a SA.
+- `kubectl get secrets service-account-secret`
+  - Verifica existência do Secret.
+- `kubectl get secrets service-account-secret -o yaml`
+  - Exibe:
+    - `.data.ca.crt` (CA do cluster, base64)
+    - `.data.token` (token JWT, base64)
+    - `.data.namespace` (namespace da SA, base64)
+    - annotations: `kubernetes.io/service-account.name`, `...uid`
+- `kubectl get secret service-account-secret -o jsonpath='{.data.token}' | base64 -d`
+  - Extrai token em texto.
+- Uso do token:
+  - `kubectl --server=<api-server> --certificate-authority=ca.crt --token=<token> get pods`
+  - ou:
+    - `kubectl config set-credentials pod-leitor --token=<token>`
+    - `kubectl config set-context pod-leitor --cluster=<cluster> --namespace=default --user=pod-leitor`
+    - `kubectl config use-context pod-leitor`

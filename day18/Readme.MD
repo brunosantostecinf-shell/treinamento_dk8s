@@ -15,3 +15,5 @@ Day18 - Descomplicando RBAC no Kubernetes.
 [ClusterRole e ClusterRoleBinding](<ClusterRole e ClusterRoleBinding.MD>)
 
 [Utilizando Tokens para Service Accounts](<Utilizando Tokens para Service Accounts.MD>)
+
+[Encerramento](encerramento.MD)
